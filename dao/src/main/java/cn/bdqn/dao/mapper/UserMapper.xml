@@ -4,5 +4,8 @@
     <select id="queryAllUser" resultType="cn.bdqn.beans.pojo.User">
         select * from user
     </select>
+    <select id="getUserByUsername" resultType="cn.bdqn.beans.pojo.User">
+        select * from user where username = #{username}
+    </select>
 
 </mapper>
