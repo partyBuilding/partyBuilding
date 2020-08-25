@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.bdqn.dao.mapper.MenuMapper">
+    <select id="getMenuIdByRoleId" resultType="int">
+        select mid from menu_role where rid = #{rid}
+    </select>
+    <select id="getMenuByMenuId" resultType="cn.bdqn.beans.pojo.Menu">
+        select * from menu where id = #{mid}
+    </select>
+</mapper>
