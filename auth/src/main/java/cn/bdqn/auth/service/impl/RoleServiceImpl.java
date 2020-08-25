@@ -6,6 +6,7 @@ import cn.bdqn.dao.mapper.RoleMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -14,9 +15,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getRoleByUserId(int uid) {
         List<Integer> ridList = roleMapper.getRoleIdByUserId(uid);
-        List<Role> roleList = null;
+        List<Role> roleList = new ArrayList<Role>();
         for (int i=0;i<ridList.size();i++){
-            roleList.add(roleMapper.getRoleByRoleId(ridList.get(i)));
+            Role role = roleMapper.getRoleByRoleId(ridList.get(i));
+            roleList.add(role);
         }
         return roleList;
     }

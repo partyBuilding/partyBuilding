@@ -1,16 +1,23 @@
 package cn.bdqn.auth.config;
 
+import cn.bdqn.auth.service.MenuService;
 import cn.bdqn.auth.service.RoleService;
 import cn.bdqn.auth.service.UserService;
+import cn.bdqn.beans.pojo.Menu;
+import cn.bdqn.beans.pojo.Role;
 import cn.bdqn.beans.pojo.User;
 import cn.bdqn.util.util.JwtUtil;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 public class MyRealm extends AuthorizingRealm {
 
@@ -18,6 +25,8 @@ public class MyRealm extends AuthorizingRealm {
     private UserService userService;
     @Resource
     private RoleService roleService;
+    @Resource
+    private MenuService menuService;
 
     /**
      * 必须重写此方法，不然Shiro会报错
@@ -32,9 +41,22 @@ public class MyRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = JwtUtil.getUsername(principalCollection.toString());
-        User user = userService.getUserByUsername(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        String username = JwtUtil.getUsername(principalCollection.toString());
+        //获取用户
+        User user = userService.getUserByUsername(username);
+        System.out.println(user);
+        //获取角色
+        List<Role> roleList = roleService.getRoleByUserId(user.getId());
+        for (Role role : roleList) {
+            simpleAuthorizationInfo.addRole(role.getName());
+            //获取权限
+            List<Menu> menuList = menuService.getMenuByRoleId(role.getId());
+            System.out.println(menuList);
+            for (Menu menu : menuList) {
+                simpleAuthorizationInfo.addStringPermission(menu.getPattern());//添加 权限
+            }
+        }
         return simpleAuthorizationInfo;
     }
     //认证
