@@ -17,7 +17,6 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getMenuByRoleId(int rid) {
         List<Integer> midList = menuMapper.getMenuIdByRoleId(rid);
         List<Menu> menuList = new ArrayList<Menu>();
-        System.out.println(midList);
         for (int i=0;i<midList.size();i++){
             menuList.add(menuMapper.getMenuByMenuId(midList.get(i)));
         }

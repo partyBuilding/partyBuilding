@@ -68,6 +68,7 @@
         <module>dao</module>
         <module>auth</module>
         <module>util</module>
+        <module>biz</module>
     </modules>
 
 </project>

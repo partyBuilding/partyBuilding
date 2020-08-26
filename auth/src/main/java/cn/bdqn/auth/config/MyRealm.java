@@ -45,14 +45,12 @@ public class MyRealm extends AuthorizingRealm {
         String username = JwtUtil.getUsername(principalCollection.toString());
         //获取用户
         User user = userService.getUserByUsername(username);
-        System.out.println(user);
         //获取角色
         List<Role> roleList = roleService.getRoleByUserId(user.getId());
         for (Role role : roleList) {
             simpleAuthorizationInfo.addRole(role.getName());
             //获取权限
             List<Menu> menuList = menuService.getMenuByRoleId(role.getId());
-            System.out.println(menuList);
             for (Menu menu : menuList) {
                 simpleAuthorizationInfo.addStringPermission(menu.getPattern());//添加 权限
             }
