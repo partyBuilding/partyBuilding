@@ -1,6 +1,7 @@
 package cn.bdqn.beans.pojo;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -8,7 +9,9 @@ import java.util.Date;
 public class MeetingManagement {
     private int id;
     private String title;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     private int lateTime;
     private String address;

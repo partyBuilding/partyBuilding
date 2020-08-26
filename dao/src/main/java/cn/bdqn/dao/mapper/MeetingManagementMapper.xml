@@ -18,8 +18,11 @@
             </if>
         </where>
     </select>
-    <insert id="addMeetingManagement" useGeneratedKeys="true" keyProperty="ID" parameterType="cn.bdqn.beans.pojo.MeetingManagement">
+    <insert id="addMeetingManagement" useGeneratedKeys="true" keyProperty="id" parameterType="cn.bdqn.beans.pojo.MeetingManagement">
         insert into meetingmanagement values(null,#{title},#{startTime},#{endTime},#{lateTime},#{address},#{compereId},
                                             #{recorderId},#{content},1,null,#{file},1,#{typeId})
+    </insert>
+    <insert id="addJoinStaff">
+        insert into joinstaff(uid,meetingManagementId) values(#{uid},#{meetingManagementId})
     </insert>
 </mapper>

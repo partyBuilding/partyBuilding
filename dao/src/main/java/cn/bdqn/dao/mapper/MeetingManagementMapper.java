@@ -13,5 +13,5 @@ public interface MeetingManagementMapper {
     //新增会议
     int addMeetingManagement(MeetingManagement meetingManagement);
     //给新增的会议添加参与人员
-    int addJoinStaff();
+    int addJoinStaff(int uid,int meetingManagementId);
 }

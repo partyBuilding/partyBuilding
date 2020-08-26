@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface MeetingManagementService {
     List<MeetingManagement> getMeetingManagement(String title,int typeId,int auditId,int id);
+    void addMeetingManagement(MeetingManagement meetingManagement,List<Integer> uid);
 }

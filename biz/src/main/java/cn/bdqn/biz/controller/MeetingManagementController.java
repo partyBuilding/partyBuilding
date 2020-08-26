@@ -2,6 +2,7 @@ package cn.bdqn.biz.controller;
 
 import cn.bdqn.beans.pojo.MeetingManagement;
 import cn.bdqn.biz.Service.MeetingManagementService;
+import cn.bdqn.util.util.ResponseDataUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -27,6 +28,19 @@ public class MeetingManagementController {
         PageHelper.startPage(start,size,"id desc");
         List<MeetingManagement> meetingManagementList = meetingManagementService.getMeetingManagement(title,typeId,auditId,id);
         PageInfo<MeetingManagement> page = new PageInfo<>(meetingManagementList);
-        return page;
+        return ResponseDataUtil.success("查询成功",page);
+    }
+    @RequiresRoles("ROLE_admin")
+    @PostMapping(value = "/addMeetingManagement")
+    public Object addMeetingManagement(MeetingManagement meetingManagement,
+                                       @RequestParam(value = "uid") List<Integer> uid){
+        System.out.println(uid);
+        try{
+            meetingManagementService.addMeetingManagement(meetingManagement,uid);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDataUtil.failure("添加失败");
+        }
+        return ResponseDataUtil.success("添加成功");
     }
 }
