@@ -23,4 +23,5 @@ public class MeetingManagement {
     private String file;
     private String meetingOrCourse;
     private int typeId;
+    private int status;
 }

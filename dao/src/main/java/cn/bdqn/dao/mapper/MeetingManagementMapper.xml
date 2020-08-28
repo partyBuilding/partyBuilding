@@ -16,13 +16,34 @@
             <if test="id > 0">
                 and id = #{id}
             </if>
+            <if test="meetingOrCourse > 0">
+                and meetingOrCourse = #{meetingOrCourse}
+            </if>
+            <if test="status > 0">
+                and status = #{status}
+            </if>
         </where>
     </select>
     <insert id="addMeetingManagement" useGeneratedKeys="true" keyProperty="id" parameterType="cn.bdqn.beans.pojo.MeetingManagement">
         insert into meetingmanagement values(null,#{title},#{startTime},#{endTime},#{lateTime},#{address},#{compereId},
-                                            #{recorderId},#{content},1,null,#{file},1,#{typeId})
+                                            #{recorderId},#{content},1,null,#{file},#{meetingOrCourse},#{typeId},null,#{status})
     </insert>
     <insert id="addJoinStaff">
         insert into joinstaff(uid,meetingManagementId) values(#{uid},#{meetingManagementId})
     </insert>
+    <update id="updateMeetingManagementAuditById">
+        update meetingmanagement set auditId = #{auditId} where id = #{id}
+    </update>
+    <delete id="delMeetingmanagementById">
+        delete from meetingmanagement where id = #{id}
+    </delete>
+    <delete id="delJoinStaffByMid">
+        delete from joinstaff where meetingManagementId = #{mid}
+    </delete>
+    <insert id="addSummarizeById">
+        update meetingmanagement set summarize = #{summarize},summarizeFile = #{summarizeFile} where id = #{id}
+    </insert>
+    <select id="getUidByMeetingManagementId">
+        select * from
+    </select>
 </mapper>
