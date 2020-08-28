@@ -14,8 +14,8 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
     private MeetingManagementMapper meetingManagementMapper;
 
     @Override
-    public List<MeetingManagement> getMeetingManagement(String title,int typeId,int auditId,int id,int meetingOrCourse) {
-        return meetingManagementMapper.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse);
+    public List<MeetingManagement> getMeetingManagement(String title,int typeId,int auditId,int id,int meetingOrCourse,int status) {
+        return meetingManagementMapper.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse,status);
     }
     @Transactional
     @Override

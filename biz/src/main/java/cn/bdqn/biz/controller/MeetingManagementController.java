@@ -25,7 +25,8 @@ public class MeetingManagementController {
                                           @RequestParam(value = "typeId",defaultValue = "0") int typeId,
                                           @RequestParam(value = "auditId",defaultValue = "0") int auditId,
                                           @RequestParam(value = "id",defaultValue = "0") int id,
-                                          @RequestParam(value = "meetingOrCourse",defaultValue = "0") int meetingOrCourse){
+                                          @RequestParam(value = "meetingOrCourse",defaultValue = "0") int meetingOrCourse,
+                                          @RequestParam(value = "status",defaultValue = "0") int status){
         PageHelper.startPage(start,size,"id desc");
         List<MeetingManagement> meetingManagementList = meetingManagementService.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse);
         PageInfo<MeetingManagement> page = new PageInfo<>(meetingManagementList);
