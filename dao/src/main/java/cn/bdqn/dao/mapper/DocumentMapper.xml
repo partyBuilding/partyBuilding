@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.mapper.DocumentMapper">
+    <insert id="addDocument" >
+        insert into document(title,typeId,publisher,releaseTime,auditId,images,accessory,content)
+        values(#{title},#{typeId},#{publisher},#{releaseTime},#{auditId},#{images},#{accessory},#{content})
+    </insert>
+
+    <update id="updateDocument" >
+        update document
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+
+            <if test="title!=null and title!=''">
+                title=#{title},
+            </if>
+            <if test="typeId!=0">
+                typeId=#{typeId},
+            </if>
+            <if test="publisher!=null and publisher!=''">
+                publisher=#{publisher},
+            </if>
+            <if test="auditId!=0">
+                auditId=#{auditId},
+            </if>
+            <if test="content!=null and content!=''">
+                content=#{content},
+            </if>
+        </trim>
+    </update>
+
+    <delete id="delDocument">
+        delete from document where id=#{id}
+    </delete>
+
+
+
+    <select id="DocumentPageAll" resultType="cn.bdqn.beans.bean.Document" parameterType="cn.bdqn.beans.bean.Document">
+        select  dc.*,ty.name as typename,(select sum(1) from `comment` where documentid=dc.id) as commentSum from document as dc
+            LEFT JOIN type as ty
+            on dc.typeId = ty.id
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="title!=null and title!=''">
+                and dc.title like CONCAT('%',#{title},'%')
+            </if>
+            <if test="typeId!=0">
+                and dc.typeId=#{typeId}
+            </if>
+            <if test="auditId!=0">
+                and dc.auditId=#{auditId}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getDocumentDetails" resultType="cn.bdqn.beans.bean.Document">
+        select * from document where id =#{id}
+    </select>
+</mapper>

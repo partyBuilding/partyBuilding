@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.mapper.SubjectMapper">
+    <insert id="addSubject" useGeneratedKeys="true" keyProperty="id" parameterType="cn.bdqn.beans.bean.Subject">
+        insert into subject value(null,#{name},#{publisher},#{topicType},#{auditId},#{describe})
+    </insert>
+
+    <update id="update" >
+        update subject
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+
+            <if test="publisher!=null and publisher!=''">
+                publisher=#{publisher},
+            </if>
+            <if test="topicType!=0">
+                topicType=#{topicType},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="auditId!=0">
+                auditId=#{auditId},
+            </if>
+            <if test="describe!=null and describe!=''">
+                describe=#{describe},
+            </if>
+        </trim>
+    </update>
+
+
+    <delete id="del">
+        delete from subject where id =#{id}
+    </delete>
+
+    
+    <select id="select" resultType="cn.bdqn.beans.bean.Subject">
+        select * from subject
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name!=null and name!=''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="topicType!=0">
+                and topicType=#{topicType}
+            </if>
+            <if test="auditId!=0">
+                and auditId=#{auditId}
+            </if>
+        </trim>
+    </select>
+
+
+</mapper>
