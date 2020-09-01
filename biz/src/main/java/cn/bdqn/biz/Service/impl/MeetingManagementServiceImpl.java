@@ -14,8 +14,8 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
     private MeetingManagementMapper meetingManagementMapper;
 
     @Override
-    public List<MeetingManagement> getMeetingManagement(String title,int typeId,int auditId,int id) {
-        return meetingManagementMapper.getMeetingManagement(title,typeId,auditId,id);
+    public List<MeetingManagement> getMeetingManagement(String title,int typeId,int auditId,int id,int meetingOrCourse,int status) {
+        return meetingManagementMapper.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse,status);
     }
     @Transactional
     @Override
@@ -27,4 +27,24 @@ public class MeetingManagementServiceImpl implements MeetingManagementService {
             }
         }
     }
+
+    @Override
+    public int updateMeetingManagementAuditById(int id, int auditId) {
+        return meetingManagementMapper.updateMeetingManagementAuditById(id,auditId);
+    }
+
+    @Override
+    @Transactional
+    public void delMeetingmanagementById(int id) {
+        if(meetingManagementMapper.delMeetingmanagementById(id)<0 || meetingManagementMapper.delJoinStaffByMid(id)<0){
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public int addSummarizeById(int id, String summarize, String summarizeFile) {
+        System.out.println(id+","+summarize+","+summarizeFile);
+        return meetingManagementMapper.addSummarizeById(id,summarize,summarizeFile);
+    }
+
 }
