@@ -6,5 +6,4 @@ import lombok.Data;
 public class Type {
     private int id;
     private String name;
-    private int kk;
 }

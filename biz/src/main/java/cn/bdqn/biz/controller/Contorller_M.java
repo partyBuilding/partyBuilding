@@ -6,6 +6,8 @@ import cn.bdqn.dao.mapper.SubjectMapper;
 import cn.bdqn.util.util.ResponseDataUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +17,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/manage")
+@Api(description = "考试 调查问卷 文档管理")
 public class Contorller_M {
 
     @Resource
     private DocumentService documentService;
 
+    @ApiOperation(value="文档分页")
     @RequestMapping("/document")
     public Object document(Document document){
         List<Document> list =documentService.DocumentPageAll(document);
         return list;
     }
 
+    @ApiOperation(value="新增文档",notes = "添加文档 传入文档对象中对应的值")
     @RequestMapping("/addDocument")
     public Object add(Document document){   //新增文档
         try{
@@ -37,6 +42,7 @@ public class Contorller_M {
         }
     }
 
+    @ApiOperation(value="更新文档",notes = "更新文档对象中对应的值  审核等状态修改也是调用该接口")
     @RequestMapping("/updateDocument")
     public Object update(Document document){   //更新文档
         try{
@@ -48,6 +54,7 @@ public class Contorller_M {
         }
     }
 
+    @ApiOperation(value="删除文档",notes = "根据文档id删除")
     @RequestMapping("/delDocument")
     public Object del(Integer id){
         try{
@@ -59,6 +66,7 @@ public class Contorller_M {
         }
     }
 
+    @ApiOperation(value="查询文档列表",notes = "根据文档名称 审核状态 分类查询 分页可设置")
     @RequestMapping("/queryDocument")
     public Object query(Document document, @RequestParam(value="start",defaultValue = "0") Integer start,
                         @RequestParam(value = "size",defaultValue = "5") Integer size){
@@ -69,6 +77,7 @@ public class Contorller_M {
     }
 
 
+    @ApiOperation(value="查看文档详情",notes = "根据文档id返回具体文档详情")
     @RequestMapping("/queryDocumentDetails")
     public Object queryDetails(@RequestParam("id")Integer id){  //查看文档详情
         return ResponseDataUtil.success("",documentService.getDocumentDetails(id));
@@ -77,6 +86,7 @@ public class Contorller_M {
 
     @Resource
     private CommentService commentService;
+    @ApiOperation(value = "删除文档评论",notes = "根据评论实体的id删除评论")
     @RequestMapping("/delComment")
     public Object delComment(@RequestParam("id")Integer id){   //删除评论
         try{
