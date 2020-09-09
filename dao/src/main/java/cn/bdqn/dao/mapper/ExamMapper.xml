@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.mapper.ExamMapper">
+    <insert id="addExam" useGeneratedKeys="true" keyProperty="id">
+        insert into eaxm value(null,#{examName},#{examTime},#{image},#{publisher},#{auditId},#{describe},#{status},#{titleId}
+        ,#{explain},#{startTime},#{endTime})
+    </insert>
+
+    <select id="queryExam" resultType="cn.bdqn.beans.bean.Exam">
+        select eaxm.*,ai.`status` as statusName,sts.name from eaxm
+        left join audit as ai
+        on eaxm.auditId = ai.id
+        left join `status` as sts
+        on eaxm.`status` = sts.id
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="examName!=null and examName!=''">
+                and eaxm.examName like CONCAT('%',#{examName},'%')
+            </if>
+            <if test="auditId!=0">
+                and eaxm.auditId=#{auditId}
+            </if>
+            <if test="titleId!=0">
+                and eaxm.titleId=#{titleId}
+            </if>
+            <if test="status!=0">
+                and eaxm.status=#{status}
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateExam" >
+        update eaxm
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+
+            <if test="examName!=null and examName!=''">
+                examName=#{examName},
+            </if>
+            <if test="examTime!=0">
+                examTime=#{examTime},
+            </if>
+            <if test="image!=null and image!=''">
+                image=#{image},
+            </if>
+            <if test="auditId!=0">
+                auditId=#{auditId},
+            </if>
+            <if test="publisher!=null and publisher!=''">
+                publisher=#{publisher},
+            </if>
+            <if test="describe!=null and describe!=''">
+                describe=#{describe},
+            </if>
+            <if test="status!=0">
+                status=#{status},
+            </if>
+            <if test="titleId!=0">
+                titleId=#{titleId},
+        </if>
+        </trim>
+    </update>
+
+    <delete id="delExam" >
+        delete from eaxm where id=#{id}
+    </delete>
+</mapper>

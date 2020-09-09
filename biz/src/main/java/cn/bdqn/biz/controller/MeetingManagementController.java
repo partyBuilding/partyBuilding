@@ -28,7 +28,7 @@ public class MeetingManagementController {
                                           @RequestParam(value = "meetingOrCourse",defaultValue = "0") int meetingOrCourse,
                                           @RequestParam(value = "status",defaultValue = "0") int status){
         PageHelper.startPage(start,size,"id desc");
-        List<MeetingManagement> meetingManagementList = meetingManagementService.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse);
+        List<MeetingManagement> meetingManagementList = meetingManagementService.getMeetingManagement(title,typeId,auditId,id,meetingOrCourse,status);
         PageInfo<MeetingManagement> page = new PageInfo<>(meetingManagementList);
         return ResponseDataUtil.success("查询成功",page);
     }

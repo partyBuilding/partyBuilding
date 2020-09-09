@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.mapper.ExamTopicsMapper">
+    <insert id="addExamTopics" >
+        insert into examtopics value(null,#{eaxmId},#{subjectId},#{score},#{sort})
+    </insert>
+
+    <resultMap id="details" type="cn.bdqn.beans.bean.ExamTopics" >
+        <id column="id" property="id"/>
+        <result property="eaxmId" column="eaxmId"/>
+        <result property="subjectId" column="subjectId" />
+        <result property="score" column="score" />
+        <result property="sort" column="sort" />
+        <collection property="subjects" ofType="cn.bdqn.beans.bean.Subject">
+            <id property="id" column="sid" />
+            <result column="name" property="name" />
+            <result column="publisher" property="publisher" />
+            <result column="topicType" property="topicType" />
+            <result column="auditId" property="auditId" />
+            <result column="describe" property="describe" />
+            <collection property="options" ofType="cn.bdqn.beans.bean.Options">
+                <id column="oid" property="id" />
+                <result property="subjectId" column="osubjectId"/>
+                <result property="concent" column="concent"/>
+                <result property="result" column="result"/>
+                <result property="assist" column="assist"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="getDetails" resultMap="details">
+        select ec.*,sb.id as sid,sb.*,os.id as oid,os.subjectId as osubjectId,os.* from examtopics as ec
+            LEFT JOIN `subject` as sb
+            on ec.subjectId = sb.id
+            LEFT JOIN `options` as os
+            on sb.id=os.subjectId
+            where ec.eaxmId=#{examId}
+    </select>
+</mapper>
